@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 
 export default function HomePage() {
   const { user, logout } = useAuth()
@@ -9,7 +9,7 @@ export default function HomePage() {
       <h1 className="h2 mb-4">japen_figure_info</h1>
       {user ? (
         <div className="d-flex flex-column gap-3">
-          <p>{user.nickname ?? user.email}님, 환영합니다.</p>
+          <p>{user.nickname ?? user.id}님, 환영합니다.</p>
           <button
             className="btn btn-outline-secondary"
             style={{ width: 'fit-content' }}

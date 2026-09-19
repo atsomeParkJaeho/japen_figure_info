@@ -1,8 +1,9 @@
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 
 export class SignupDto {
-  @IsEmail()
-  email!: string;
+  @IsString()
+  @MinLength(3)
+  id!: string;
 
   @IsString()
   @MinLength(8)

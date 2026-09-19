@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../api/auth'
-import { useAuth } from '../context/AuthContext'
+import { login } from '../../api/auth'
+import { useAuth } from '../../context/AuthContext'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
+  const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -14,11 +14,11 @@ export default function LoginPage() {
     e.preventDefault()
     setError(null)
     try {
-      const res = await login({ email, password })
+      const res = await login({ id, password })
       setSession(res.user, res.accessToken)
-      navigate('/')
+      navigate('/home')
     } catch {
-      setError('이메일 또는 비밀번호가 올바르지 않습니다.')
+      setError('아이디 또는 비밀번호가 올바르지 않습니다.')
     }
   }
 
@@ -27,11 +27,11 @@ export default function LoginPage() {
       <h1 className="h3 mt-5 mb-4">로그인</h1>
       <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
         <input
-          type="email"
+          type="text"
           className="form-control"
-          placeholder="이메일"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="아이디"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
           required
         />
         <input

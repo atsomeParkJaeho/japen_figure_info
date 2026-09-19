@@ -1,8 +1,8 @@
 import { apiClient } from './client'
 
 export interface AuthUser {
+  no: number
   id: string
-  email: string
   nickname?: string
 }
 
@@ -12,14 +12,14 @@ export interface AuthResponse {
 }
 
 export function signup(data: {
-  email: string
+  id: string
   password: string
   nickname?: string
 }) {
   return apiClient.post<AuthResponse>('/auth/signup', data).then((r) => r.data)
 }
 
-export function login(data: { email: string; password: string }) {
+export function login(data: { id: string; password: string }) {
   return apiClient.post<AuthResponse>('/auth/login', data).then((r) => r.data)
 }
 

@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { signup } from '../api/auth'
-import { useAuth } from '../context/AuthContext'
+import { signup } from '../../api/auth'
+import { useAuth } from '../../context/AuthContext'
 
 export default function SignupPage() {
-  const [email, setEmail] = useState('')
+  const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -15,11 +15,11 @@ export default function SignupPage() {
     e.preventDefault()
     setError(null)
     try {
-      const res = await signup({ email, password, nickname })
+      const res = await signup({ id, password, nickname })
       setSession(res.user, res.accessToken)
-      navigate('/')
+      navigate('/home')
     } catch {
-      setError('회원가입에 실패했습니다. 이미 등록된 이메일일 수 있습니다.')
+      setError('회원가입에 실패했습니다. 이미 사용 중인 아이디일 수 있습니다.')
     }
   }
 
@@ -28,11 +28,12 @@ export default function SignupPage() {
       <h1 className="h3 mt-5 mb-4">회원가입</h1>
       <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
         <input
-          type="email"
+          type="text"
           className="form-control"
-          placeholder="이메일"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="아이디 (3자 이상)"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          minLength={3}
           required
         />
         <input

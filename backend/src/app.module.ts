@@ -6,6 +6,7 @@ import { AppService } from './app.service.js';
 import { UsersModule } from './users/users.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { CrawlerModule } from './crawler/crawler.module.js';
+import { BoardsModule } from './boards/boards.module.js';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CrawlerModule } from './crawler/crawler.module.js';
     UsersModule,
     AuthModule,
     CrawlerModule,
+    BoardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
