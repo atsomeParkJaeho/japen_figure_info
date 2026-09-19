@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getPost, type BoardPost } from '../../api/boards'
+import { BOARD_LABELS, type BoardId } from '../../constants/boards'
 
-export default function BoardViewPage() {
-  const { boardId, postId } = useParams<{ boardId: string; postId: string }>()
+interface BoardViewPageProps {
+  boardId: BoardId
+}
+
+export default function BoardViewPage({ boardId }: BoardViewPageProps) {
+  const { postId } = useParams<{ postId: string }>()
   const [post, setPost] = useState<BoardPost | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!boardId || !postId) return
+    if (!postId) return
     setError(null)
     getPost(boardId, postId)
       .then(setPost)
@@ -17,7 +22,7 @@ export default function BoardViewPage() {
 
   return (
     <div className="container mt-5">
-      <h1 className="h3 mb-4">{boardId} 게시글 상세</h1>
+      <h1 className="h3 mb-4">{BOARD_LABELS[boardId]} 게시글 상세</h1>
 
       {error ? (
         <div className="text-danger mb-4">{error}</div>

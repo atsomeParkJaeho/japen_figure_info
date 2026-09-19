@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { listPosts, type BoardPost } from '../../api/boards'
+import { BOARD_LABELS, type BoardId } from '../../constants/boards'
 
-export default function BoardListPage() {
-  const { boardId } = useParams<{ boardId: string }>()
+interface BoardListPageProps {
+  boardId: BoardId
+}
+
+export default function BoardListPage({ boardId }: BoardListPageProps) {
   const [posts, setPosts] = useState<BoardPost[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!boardId) return
     setLoading(true)
     setError(null)
     listPosts(boardId)
@@ -21,7 +24,7 @@ export default function BoardListPage() {
   return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="h3 m-0">{boardId} 게시판</h1>
+        <h1 className="h3 m-0">{BOARD_LABELS[boardId]}</h1>
         <Link to={`/board/${boardId}/write`} className="btn btn-primary">
           글쓰기
         </Link>

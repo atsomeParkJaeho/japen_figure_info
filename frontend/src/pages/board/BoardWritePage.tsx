@@ -1,9 +1,13 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../api/boards'
+import { BOARD_LABELS, type BoardId } from '../../constants/boards'
 
-export default function BoardWritePage() {
-  const { boardId } = useParams<{ boardId: string }>()
+interface BoardWritePageProps {
+  boardId: BoardId
+}
+
+export default function BoardWritePage({ boardId }: BoardWritePageProps) {
   const [name, setName] = useState('')
   const [content, setContent] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -11,7 +15,6 @@ export default function BoardWritePage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!boardId) return
     setError(null)
     try {
       await createPost(boardId, { name, content })
@@ -23,7 +26,7 @@ export default function BoardWritePage() {
 
   return (
     <div className="container mt-5" style={{ maxWidth: 720 }}>
-      <h1 className="h3 mb-4">{boardId} 글쓰기</h1>
+      <h1 className="h3 mb-4">{BOARD_LABELS[boardId]} 글쓰기</h1>
       <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
         <input
           type="text"
