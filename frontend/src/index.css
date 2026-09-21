@@ -1,8 +1,48 @@
+/*
+  Keep Bootstrap unlayered (plain @import). Tailwind always wraps its own
+  output in named layers (theme/base/components/utilities) — per the CSS
+  cascade layers spec, unlayered rules beat ANY layered rule regardless of
+  specificity or source order. That's what we want here: Bootstrap is the
+  primary framework (container, grid, components) and Tailwind is only for
+  incidental utility tweaks. Wrapping Bootstrap in an explicit layer was
+  tried and reverted — it made Tailwind's own `.container{width:100%}`
+  utility (auto-generated because the literal string "container" is used
+  everywhere as a Bootstrap class) silently replace Bootstrap's centered,
+  padded `.container`, breaking layout site-wide.
+  The tradeoff: on the rare case Tailwind happens to define a utility with
+  the exact same class name Bootstrap uses (e.g. `.collapse`), Tailwind's
+  layered rule can still win if Bootstrap has no competing declaration of
+  its own for that property — see the `.collapse` override below for how
+  to patch a specific collision when it happens.
+*/
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'tailwindcss';
 
+/*
+  Drive Tailwind's `dark:` variant off the same `data-bs-theme="dark"`
+  attribute Bootstrap 5.3 uses for its own dark mode, so one toggle
+  (ThemeContext) controls both frameworks at once instead of keeping two
+  separate dark-mode mechanisms in sync.
+*/
+@custom-variant dark (&:where([data-bs-theme='dark'], [data-bs-theme='dark'] *));
+
 :root {
   color-scheme: light dark;
+}
+
+[data-bs-theme='dark'] {
+  color-scheme: dark;
+}
+
+/*
+  Tailwind's `.collapse` utility (visibility: collapse, for <table> rows)
+  collides with Bootstrap's `.collapse` component class (display: none/block,
+  toggled by bootstrap.bundle.js). Since Tailwind loads after Bootstrap here,
+  it silently breaks the navbar toggle. This project doesn't use Tailwind's
+  table-collapse utility, so restore the default visibility for it.
+*/
+.collapse {
+  visibility: visible;
 }
 
 body {

@@ -1,8 +1,31 @@
 *  {margin:0; padding:0; box-sizing: border-box; list-style: none;}
+
+/* 라이트 모드 (기본값) */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-text: #222222;
+  --color-text-muted: #6c757d;
+  --color-link: #000000;
+  --color-border: #e5e5e5;
+}
+
+/* 다크 모드 — Header의 토글 버튼(ThemeContext)이 설정하는 data-bs-theme 속성과 연동 */
+[data-bs-theme='dark'] {
+  --color-bg: #16171d;
+  --color-surface: #1f2028;
+  --color-text: #e5e5e5;
+  --color-text-muted: #9ca3af;
+  --color-link: #ffffff;
+  --color-border: #2e303a;
+}
+
 html, body  {
   font-family: 'NanumSquareNeo';
   font-size:14px;
-  color:#222;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color .2s ease, color .2s ease;
 }
 
-a  {text-decoration: none; color:#000;}
+a  {text-decoration: none; color: var(--color-link);}

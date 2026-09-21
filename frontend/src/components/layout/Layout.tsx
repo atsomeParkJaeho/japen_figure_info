@@ -10,9 +10,11 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="layout_box">
       <Header/>
-      <div className="container">
-        {children}
-      </div>
+        <div className="bg_box" style={{paddingTop:65.92}}>
+          <div className="container" >
+            {children}
+          </div>
+        </div>
       <Footer/>
     </div>
   )
